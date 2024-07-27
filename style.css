@@ -139,6 +139,7 @@ button:hover {
     padding: 1rem;
     border-radius: 4px;
     text-align: center;
+    display: none; /* 初期状態では非表示 */
 }
 
 #result.correct {
@@ -149,6 +150,14 @@ button:hover {
 #result.incorrect {
     background-color: var(--error-color);
     color: #fff;
+}
+
+#explanation {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    display: none; /* 初期状態では非表示 */
 }
 
 #next-question, #submit-answer {
