@@ -80,6 +80,10 @@ function selectAnswer(index) {
     const answerButtons = document.querySelectorAll('.answer-option');
     answerButtons.forEach(button => button.classList.remove('selected'));
     answerButtons[index].classList.add('selected');
+
+    // 回答を送信ボタンにスクロール
+    const submitButton = document.getElementById('submit-answer');
+    submitButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 // 回答の送信
