@@ -68,8 +68,11 @@ function loadQuestion() {
 
     document.getElementById('submit-answer').style.display = 'inline-block';
     document.getElementById('next-question').style.display = 'none';
-    document.getElementById('result').textContent = '';
-    document.getElementById('explanation').textContent = '';
+    document.getElementById('result').style.display = 'none';
+    document.getElementById('explanation').style.display = 'none';
+    
+    // 画面をトップにスクロール
+    window.scrollTo(0, 0);
 }
 
 // 回答の選択
@@ -101,8 +104,14 @@ function submitAnswer() {
 
     explanationElement.textContent = '解説: ' + question.explanation;
 
+    resultElement.style.display = 'block';
+    explanationElement.style.display = 'block';
+
     document.getElementById('submit-answer').style.display = 'none';
     document.getElementById('next-question').style.display = 'inline-block';
+
+    // 解説が見えるようにスクロール
+    document.getElementById('explanation').scrollIntoView({ behavior: 'smooth' });
 }
 
 // 次の問題へ
