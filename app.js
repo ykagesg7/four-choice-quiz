@@ -1,8 +1,36 @@
+// スペース学習理論のクラス
+class SpacedRepetition {
+    constructor() {
+        this.intervals = [1, 3, 7, 14, 30, 60, 120]; // 復習間隔（日数）
+    }
+
+    calculateNextReview(currentIntervalIndex, wasCorrect) {
+        let nextIntervalIndex;
+        if (wasCorrect) {
+            nextIntervalIndex = Math.min(currentIntervalIndex + 1, this.intervals.length - 1);
+        } else {
+            nextIntervalIndex = Math.max(currentIntervalIndex - 1, 0);
+        }
+        
+        const nextInterval = this.intervals[nextIntervalIndex];
+        const nextReviewDate = new Date();
+        nextReviewDate.setDate(nextReviewDate.getDate() + nextInterval);
+        
+        return { nextReviewDate, nextIntervalIndex };
+    }
+
+    addQuestion() {
+        return { nextReviewDate: new Date(), intervalIndex: 0 };
+    }
+}
+
 // グローバル変数
 let allQuizData = [];
 let currentQuizQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
+let spacedRepetition = new SpacedRepetition();
+let questionReviewData = {};
 
 // DOMが読み込まれたら実行
 document.addEventListener('DOMContentLoaded', () => {
@@ -70,6 +98,7 @@ function loadQuestion() {
     document.getElementById('next-question').style.display = 'none';
     document.getElementById('result').style.display = 'none';
     document.getElementById('explanation').style.display = 'none';
+    document.getElementById('next-review').style.display = 'none';
     
     // 画面をトップにスクロール
     window.scrollTo(0, 0);
@@ -97,7 +126,8 @@ function submitAnswer() {
     const resultElement = document.getElementById('result');
     const explanationElement = document.getElementById('explanation');
 
-    if (selectedIndex === question.correct) {
+    const wasCorrect = selectedIndex === question.correct;
+    if (wasCorrect) {
         score++;
         resultElement.textContent = '正解！';
         resultElement.className = 'correct';
@@ -107,6 +137,21 @@ function submitAnswer() {
     }
 
     explanationElement.textContent = '解説: ' + question.explanation;
+
+    // スペース学習理論を適用
+    const questionId = question.id;
+    if (!questionReviewData[questionId]) {
+        questionReviewData[questionId] = spacedRepetition.addQuestion();
+    }
+    const { nextReviewDate, nextIntervalIndex } = spacedRepetition.calculateNextReview(
+        questionReviewData[questionId].intervalIndex,
+        wasCorrect
+    );
+    questionReviewData[questionId] = { nextReviewDate, intervalIndex: nextIntervalIndex };
+
+    const nextReviewElement = document.getElementById('next-review');
+    nextReviewElement.textContent = `次の復習日: ${nextReviewDate.toLocaleDateString()}`;
+    nextReviewElement.style.display = 'block';
 
     resultElement.style.display = 'block';
     explanationElement.style.display = 'block';
