@@ -153,6 +153,7 @@ function submitAnswer() {
     nextReviewElement.textContent = `次の復習日: ${nextReviewDate.toLocaleDateString()}`;
     nextReviewElement.style.display = 'block';
 
+    // 結果と解説を表示
     resultElement.style.display = 'block';
     explanationElement.style.display = 'block';
 
@@ -160,7 +161,7 @@ function submitAnswer() {
     document.getElementById('next-question').style.display = 'inline-block';
 
     // 解説が見えるようにスクロール
-    document.getElementById('explanation').scrollIntoView({ behavior: 'smooth' });
+    explanationElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // 次の問題へ
