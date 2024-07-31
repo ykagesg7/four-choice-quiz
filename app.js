@@ -117,8 +117,13 @@ function selectAnswer(index) {
 
 // 回答の送信
 function submitAnswer() {
+    console.log("submitAnswer function called");
+    
     const selectedAnswer = document.querySelector('.answer-option.selected');
-    if (!selectedAnswer) return;
+    if (!selectedAnswer) {
+        console.log("No answer selected");
+        return;
+    }
 
     const selectedIndex = Array.from(selectedAnswer.parentNode.children).indexOf(selectedAnswer);
     const question = currentQuizQuestions[currentQuestionIndex];
@@ -138,9 +143,15 @@ function submitAnswer() {
 
     explanationElement.textContent = '解説: ' + question.explanation;
 
+    console.log("Result:", resultElement.textContent);
+    console.log("Explanation:", explanationElement.textContent);
+
     // 結果と解説を表示
     resultElement.style.display = 'block';
     explanationElement.style.display = 'block';
+
+    console.log("Result display:", resultElement.style.display);
+    console.log("Explanation display:", explanationElement.style.display);
 
     document.getElementById('submit-answer').style.display = 'none';
     document.getElementById('next-question').style.display = 'inline-block';
