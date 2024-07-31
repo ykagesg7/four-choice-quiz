@@ -138,21 +138,6 @@ function submitAnswer() {
 
     explanationElement.textContent = '解説: ' + question.explanation;
 
-    // スペース学習理論を適用
-    const questionId = question.id;
-    if (!questionReviewData[questionId]) {
-        questionReviewData[questionId] = spacedRepetition.addQuestion();
-    }
-    const { nextReviewDate, nextIntervalIndex } = spacedRepetition.calculateNextReview(
-        questionReviewData[questionId].intervalIndex,
-        wasCorrect
-    );
-    questionReviewData[questionId] = { nextReviewDate, intervalIndex: nextIntervalIndex };
-
-    const nextReviewElement = document.getElementById('next-review');
-    nextReviewElement.textContent = `次の復習日: ${nextReviewDate.toLocaleDateString()}`;
-    nextReviewElement.style.display = 'block';
-
     // 結果と解説を表示
     resultElement.style.display = 'block';
     explanationElement.style.display = 'block';
