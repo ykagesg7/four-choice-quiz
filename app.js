@@ -52,7 +52,11 @@ async function fetchQuizData() {
 // クイズの初期化
 function initializeQuiz() {
     const quizSelection = document.getElementById('quiz-selection');
+    const quizContainer = document.getElementById('quiz-container');
+    
     quizSelection.innerHTML = '<h2>問題セットを選択してください</h2>';
+    quizSelection.style.display = 'block';
+    quizContainer.style.display = 'none';
     
     allQuizData.forEach((set, index) => {
         const button = document.createElement('button');
@@ -165,9 +169,11 @@ function nextQuestion() {
     currentQuestionIndex++;
     if (currentQuestionIndex < currentQuizQuestions.length) {
         loadQuestion();
-        // 問題が読み込まれた後、問題文の要素までスクロール
-        const questionElement = document.getElementById('question');
-        questionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // 問題が読み込まれた後、少し遅延を入れてスクロール
+        setTimeout(() => {
+            const questionElement = document.getElementById('question');
+            questionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
     } else {
         showFinalScore();
     }
@@ -179,8 +185,10 @@ function showFinalScore() {
     quizContainer.innerHTML = `
         <h2>クイズ終了</h2>
         <p>あなたのスコア: ${score} / ${currentQuizQuestions.length}</p>
-        <button onclick="initializeQuiz()" class="restart-button">別の問題セットを選択</button>
+        <button id="restart-button" class="restart-button">別の問題セットを選択</button>
     `;
+    // ボタンにイベントリスナーを追加
+    document.getElementById('restart-button').addEventListener('click', initializeQuiz);
 }
 
 // イベントリスナーの設定
