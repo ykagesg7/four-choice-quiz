@@ -165,6 +165,9 @@ function nextQuestion() {
     currentQuestionIndex++;
     if (currentQuestionIndex < currentQuizQuestions.length) {
         loadQuestion();
+        // 問題が読み込まれた後、問題文の要素までスクロール
+        const questionElement = document.getElementById('question');
+        questionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
         showFinalScore();
     }
