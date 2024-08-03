@@ -103,9 +103,6 @@ function loadQuestion() {
     document.getElementById('result').style.display = 'none';
     document.getElementById('explanation').style.display = 'none';
     document.getElementById('next-review').style.display = 'none';
-    
-    // 画面をトップにスクロール
-    window.scrollTo(0, 0);
 }
 
 // 回答の選択
@@ -168,12 +165,11 @@ function submitAnswer() {
 function nextQuestion() {
     currentQuestionIndex++;
     if (currentQuestionIndex < currentQuizQuestions.length) {
+        // まず画面の一番上にスクロール
+        window.scrollTo(0, 0);
+        
+        // その後、問題を読み込む
         loadQuestion();
-        // 問題が読み込まれた後、少し遅延を入れてスクロール
-        setTimeout(() => {
-            const questionElement = document.getElementById('question');
-            questionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
     } else {
         showFinalScore();
     }
